@@ -29,7 +29,16 @@ class Read extends Command
 
     private function loadFollowers($profile)
     {
-        foreach ($this->twitter->getFollowers($profile->id, $this->limitFollowers) as $related) {
+        $limit = $this->limitFollowers - DB::table('profile_relation')
+            ->where('profile_id_1', $profile->id)
+            ->where('relation', 'follower')
+            ->count();
+
+        if ($limit <= 0) {
+            return;
+        }
+
+        foreach ($this->twitter->getFollowers($profile->id, $limit) as $related) {
             Models\Profile::insertIgnore($related, $profile->id, 'follower');
 
             $this->loadFollowing($related);
@@ -38,7 +47,16 @@ class Read extends Command
 
     private function loadFollowing($profile)
     {
-        foreach ($this->twitter->getFollowing($profile->id, $this->limitFollowing) as $related) {
+        $limit = $this->limitFollowing - DB::table('profile_relation')
+            ->where('profile_id_1', $profile->id)
+            ->where('relation', 'following')
+            ->count();
+
+        if ($limit <= 0) {
+            return;
+        }
+
+        foreach ($this->twitter->getFollowing($profile->id, $limit) as $related) {
             Models\Profile::insertIgnore($related, $profile->id, 'following');
 
             $this->loadTimeline($related);
@@ -47,7 +65,13 @@ class Read extends Command
 
     private function loadTimeline($profile)
     {
-        foreach ($this->twitter->getTimeline($profile->id, $this->limitTimeline) as $status) {
+        $limit = $this->limitTimeline - DB::table('status')->where('profile_id', $profile->id)->count();
+
+        if ($limit <= 0) {
+            return;
+        }
+
+        foreach ($this->twitter->getTimeline($profile->id, $limit) as $status) {
             Models\Status::insertIgnore($status);
         }
     }
