@@ -29,9 +29,11 @@ class Twitter extends TwitterOAuth
 
         $response = parent::get($path, $parameters);
 
-        if (empty($response->errors)) {
-            Cache::forever($key, $response);
+        if (isset($response->errors)) {
+            return;
         }
+
+        Cache::forever($key, $response);
 
         return $response;
     }
