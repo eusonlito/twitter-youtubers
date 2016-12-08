@@ -29,7 +29,7 @@ class Twitter extends TwitterOAuth
 
         $response = parent::get($path, $parameters);
 
-        if (isset($response->errors)) {
+        if (empty($response) || isset($response->errors)) {
             return;
         }
 
