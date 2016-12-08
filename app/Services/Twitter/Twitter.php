@@ -76,11 +76,11 @@ class Twitter extends TwitterOAuth
                     continue;
                 }
 
-                yield $profile;
-
-                if (++$stored >= $limit) {
+                if ($stored++ >= $limit) {
                     break;
                 }
+
+                yield $profile;
             }
         }
     }
@@ -111,11 +111,11 @@ class Twitter extends TwitterOAuth
                 continue;
             }
 
-            yield $status;
-
-            if (++$stored >= $limit) {
+            if ($stored++ >= $limit) {
                 break;
             }
+
+            yield $status;
         }
     }
 
