@@ -18,6 +18,47 @@ class Media extends Model
         return $this->hasMany(Url::class, self::$foreign);
     }
 
+    public static function topLinks($limit)
+    {
+        return DB::select('
+            SELECT `media`.`domain`, `counter`.`count`
+            FROM `media`
+            JOIN (
+                SELECT `media_id`, COUNT(`media_id`) AS `count`
+                FROM `url`
+                GROUP BY `media_id`
+                ORDER BY `count` DESC
+                LIMIT '.(int)$limit.'
+            ) AS `counter`
+            WHERE `media`.`id` = `counter`.`media_id`
+            ORDER BY `counter`.`count` DESC, `media`.`domain` ASC;
+        ');
+    }
+
+    public static function topShares($limit)
+    {
+        return DB::select('
+            SELECT `media`.`domain`, `counter`.`count`
+            FROM `media`
+            JOIN (
+                SELECT `media_id`, SUM(`counter`.`count`) AS `count`
+                FROM `url`
+                JOIN (
+                    SELECT `url_id`, COUNT(`url_id`) AS `count`
+                    FROM `url_status`
+                    GROUP BY `url_id`
+                    ORDER BY `count` DESC
+                ) AS `counter`
+                WHERE `url`.`id` = `counter`.`url_id`
+                GROUP BY `media_id`
+                ORDER BY `count` DESC
+                LIMIT '.(int)$limit.'
+            ) AS `counter`
+            WHERE `media`.`id` = `counter`.`media_id`
+            ORDER BY `counter`.`count` DESC, `media`.`domain` ASC;
+        ');
+    }
+
     public static function insertIgnore($url)
     {
         $domain = self::fixDomain($url);

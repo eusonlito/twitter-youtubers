@@ -32,6 +32,30 @@ class Profile extends Model
         return $q->where('master', 1);
     }
 
+    public static function topShares($limit)
+    {
+        return DB::select('
+            SELECT `profile`.`hash`, `profile`.`name`, `counter`.`count`
+            FROM `profile`
+            JOIN (
+                SELECT `profile_id`, SUM(`counter`.`count`) AS `count`
+                FROM `status`
+                JOIN (
+                    SELECT `status_id`, COUNT(`status_id`) AS `count`
+                    FROM `url_status`
+                    GROUP BY `status_id`
+                    ORDER BY `count` DESC
+                ) AS `counter`
+                WHERE `status`.`id` = `counter`.`status_id`
+                GROUP BY `profile_id`
+                ORDER BY `count` DESC
+                LIMIT '.(int)$limit.'
+            ) AS `counter`
+            WHERE `profile`.`id` = `counter`.`profile_id`
+            ORDER BY `counter`.`count` DESC, `profile`.`name` ASC;
+        ');
+    }
+
     public static function insertIgnore($profile, $master_id = null, $relation = null)
     {
         DB::statement('

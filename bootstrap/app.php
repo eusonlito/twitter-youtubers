@@ -12,4 +12,8 @@ $app->singleton(Contracts\Console\Kernel::class, App\Console\Kernel::class);
 
 $app->register(App\Providers\AppServiceProvider::class);
 
+$app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
+    require __DIR__.'/../app/Http/routes.php';
+});
+
 return $app;

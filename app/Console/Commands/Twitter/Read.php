@@ -12,7 +12,7 @@ class Read extends Command
     protected $name        = 'twitter-read';
     protected $description = 'Read Twitter Profiles';
 
-    protected $limitFollowers = 200;
+    protected $limitFollowers = 600;
     protected $limitFollowing = 50;
     protected $limitTimeline  = 50;
 

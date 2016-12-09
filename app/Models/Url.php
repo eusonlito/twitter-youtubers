@@ -26,6 +26,23 @@ class Url extends Model
         return $this->belongsToMany(Status::class, 'url_status', self::$foreign, Status::$foreign);
     }
 
+    public static function topShares($limit)
+    {
+        return DB::select('
+            SELECT `url`.`url`, `counter`.`count`
+            FROM `url`
+            JOIN (
+                SELECT `url_id`, COUNT(`url_id`) AS `count`
+                FROM `url_status`
+                GROUP BY `url_id`
+                ORDER BY `count` DESC
+                LIMIT '.(int)$limit.'
+            ) AS `counter`
+            WHERE `url`.`id` = `counter`.`url_id`
+            ORDER BY `counter`.`count` DESC, `url`.`url` ASC;
+        ');
+    }
+
     public static function insertIgnore($status_id, $url)
     {
         $media_id = Media::insertIgnore($url);
