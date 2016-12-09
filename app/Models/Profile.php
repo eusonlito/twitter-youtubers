@@ -8,34 +8,10 @@ class Profile extends Model
     protected $table = 'profile';
     public static $foreign = 'profile_id';
 
-    /**
-     * @return object
-     */
-    public function statuses()
-    {
-        return $this->hasMany(Status::class, self::$foreign);
-    }
-
-    /**
-     * @return object
-     */
-    public function profiles()
-    {
-        return $this->belongsToMany(self::class, 'profile_relation', 'profile_id_1', 'profile_id_2');
-    }
-
-    /**
-     * @return object
-     */
-    public function scopeMasters($q)
-    {
-        return $q->where('master', 1);
-    }
-
     public static function topShares($limit)
     {
         return DB::select('
-            SELECT `profile`.`hash`, `profile`.`name`, `counter`.`count`
+            SELECT `profile`.`id`, `profile`.`hash`, `profile`.`name`, `counter`.`count`
             FROM `profile`
             JOIN (
                 SELECT `profile_id`, SUM(`counter`.`count`) AS `count`

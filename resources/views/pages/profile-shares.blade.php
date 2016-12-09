@@ -16,7 +16,7 @@
         <tr>
             <td><a href="https://twitter.com/{{ $stat->hash }}" target="_blank">{{ '@'.$stat->hash }}</a></td>
             <td>{{ $stat->name }}</td>
-            <td class="text-center">{{ $stat->count }}</td>
+            <td class="text-center"><a href="{{ route('profile', ['id' => $stat->id]) }}">{{ $stat->count }}</a></td>
         </tr>
         @endforeach
     </tbody>

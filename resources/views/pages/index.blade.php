@@ -20,7 +20,7 @@
         </tr>
 
         <tr>
-            <th>Statuses</th>
+            <th>Tweets</th>
             <td class="text-center">{{ $statuses }}</td>
         </tr>
 

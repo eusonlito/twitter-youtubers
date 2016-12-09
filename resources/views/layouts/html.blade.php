@@ -3,21 +3,32 @@
     <head>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
         <link href="//getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet" />
-        <script src="//code.jquery.com/jquery-2.2.4.min.js" type="text/javascript"></script>
+        <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
         <style>
-        .table td {
+        .fixed {
             max-width: 300px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        .well h3 {
+            margin: 0;
+        }
         </style>
 
         <script>
+        var WWW = '{{ url('/') }}/';
+
         jQuery(function ($) {
             $('#stats-form select').on('change', function(e) {
-                $(this).closest('form').submit();
+                location.href = WWW + $(this).val();
             });
         });
         </script>
@@ -41,10 +52,10 @@
                     <div class="form-group">
                         <select name="stat" class="form-control">
                             <option value="">Select Stat</option>
-                            <option value="profile-shares" {{ $STAT === 'profile-shares' ? 'selected' : '' }}>TOP USERs SHARES</option>
-                            <option value="url-shares" {{ $STAT === 'url-shares' ? 'selected' : '' }}>TOP URLs SHARES</option>
-                            <option value="media-links" {{ $STAT === 'media-links' ? 'selected' : '' }}>TOP MEDIAs LINKS</option>
-                            <option value="media-shares" {{ $STAT === 'media-shares' ? 'selected' : '' }}>TOP MEDIAs SHARES</option>
+                            <option value="profile-shares" {{ $SECTION === 'profile-shares' ? 'selected' : '' }}>TOP USERs SHARES</option>
+                            <option value="url-shares" {{ $SECTION === 'url-shares' ? 'selected' : '' }}>TOP URLs SHARES</option>
+                            <option value="media-links" {{ $SECTION === 'media-links' ? 'selected' : '' }}>TOP MEDIAs LINKS</option>
+                            <option value="media-shares" {{ $SECTION === 'media-shares' ? 'selected' : '' }}>TOP MEDIAs SHARES</option>
                         </select>
                     </div>
                 </form>

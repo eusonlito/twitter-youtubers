@@ -10,14 +10,6 @@ class Media extends Model
 
     protected static $medias = [];
 
-    /**
-     * @return object
-     */
-    public function links()
-    {
-        return $this->hasMany(Url::class, self::$foreign);
-    }
-
     public static function topLinks($limit)
     {
         return DB::select('

@@ -10,26 +10,10 @@ class Url extends Model
 
     protected static $urls = [];
 
-    /**
-     * @return object
-     */
-    public function media()
-    {
-        return $this->belongsTo(Media::class, Media::$foreign);
-    }
-
-    /**
-     * @return object
-     */
-    public function statuses()
-    {
-        return $this->belongsToMany(Status::class, 'url_status', self::$foreign, Status::$foreign);
-    }
-
     public static function topShares($limit)
     {
         return DB::select('
-            SELECT `url`.`url`, `counter`.`count`
+            SELECT `url`.`id`, `url`.`url`, `counter`.`count`
             FROM `url`
             JOIN (
                 SELECT `url_id`, COUNT(`url_id`) AS `count`
@@ -40,6 +24,19 @@ class Url extends Model
             ) AS `counter`
             WHERE `url`.`id` = `counter`.`url_id`
             ORDER BY `counter`.`count` DESC, `url`.`url` ASC;
+        ');
+    }
+
+    public static function profile($id)
+    {
+        return DB::select('
+            SELECT `url`.`id`, `url`.`url`
+            FROM `url`
+            JOIN `status` ON (`status`.`profile_id` = "'.(int)$id.'")
+            JOIN `url_status` ON (`url_status`.`status_id` = `status`.`id`)
+            WHERE `url`.`id` = `url_status`.`url_id`
+            GROUP BY `url`.`url`
+            ORDER BY `url`.`url` ASC
         ');
     }
 

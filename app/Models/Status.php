@@ -8,20 +8,27 @@ class Status extends Model
     protected $table = 'status';
     public static $foreign = 'status_id';
 
-    /**
-     * @return object
-     */
-    public function profile()
+    public static function profile($id)
     {
-        return $this->belongsTo(Profile::class, Profile::$foreign);
+        return DB::select('
+            SELECT `text`, `created_at`
+            FROM `status`
+            WHERE `profile_id` = "'.(int)$id.'"
+            ORDER BY `created_at` DESC;
+        ');
     }
 
-    /**
-     * @return object
-     */
-    public function links()
+    public static function url($id)
     {
-        return $this->hasMany(Url::class, self::$foreign);
+        return DB::select('
+            SELECT `status`.`id`, `status`.`text`, `status`.`created_at`,
+                `status`.`profile_id`, `profile`.`hash`, `profile`.`name`
+            FROM `status`
+            JOIN `url_status` ON (`url_status`.`url_id` = "'.(int)$id.'")
+            JOIN `profile` ON (`profile`.`id` = `status`.`profile_id`)
+            WHERE `status`.`id` = `url_status`.`status_id`
+            ORDER BY `status`.`created_at` DESC;
+        ');
     }
 
     public static function insertIgnore($status)
