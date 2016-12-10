@@ -2,6 +2,10 @@
 
 @section('body')
 
+<div class="well">
+    <h3><a href="#" class="back">&laquo;</a> {{ $media->domain }}</h3>
+</div>
+
 <table class="table table-hover">
     <thead>
         <tr>
@@ -11,7 +15,7 @@
     </thead>
 
     <tbody>
-        @foreach ($stats as $row)
+        @foreach ($urls as $row)
         <tr>
             <td class="fixed"><a href="{{ $row->url }}" target="_blank">{{ $row->url }}</a></td>
             <td class="text-center"><a href="{{ route('url', ['id' => $row->id]) }}">{{ $row->count }}</a></td>

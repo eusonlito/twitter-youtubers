@@ -3,7 +3,7 @@
 @section('body')
 
 <div class="well">
-    <h3><a href="{{ route('url-shares') }}">&laquo;</a> {{ $url->url }}</h3>
+    <h3><a href="#" class="back">&laquo;</a> {{ $url->url }}</h3>
 </div>
 
 <table class="table table-hover">
@@ -16,11 +16,11 @@
     </thead>
 
     <tbody>
-        @foreach ($statuses as $status)
+        @foreach ($statuses as $row)
         <tr>
-            <td>{{ $status->text }}</td>
-            <td class="nowrap"><a href="https://twitter.com/{{ $status->hash }}/status/{{ $status->id }}" target="_blank">{{ $status->created_at }}</a></td>
-            <td class="text-center"><a href="{{ route('profile', ['id' => $status->profile_id]) }}">{{ $status->hash }}</a></td>
+            <td>{{ $row->text }}</td>
+            <td class="nowrap"><a href="https://twitter.com/{{ $row->hash }}/status/{{ $row->id }}" target="_blank">{{ $row->created_at }}</a></td>
+            <td class="text-center"><a href="{{ route('profile', ['id' => $row->profile_id]) }}">{{ $row->hash }}</a></td>
         </tr>
         @endforeach
     </tbody>

@@ -49,6 +49,7 @@ class Controller extends BaseController
         return self::page('profile', [
             'profile' => Models\Profile::find($id),
             'urls' => Models\Url::profile($id),
+            'medias' => Models\Media::profile($id),
             'statuses' => Models\Status::profile($id)
         ]);
     }
@@ -79,6 +80,14 @@ class Controller extends BaseController
     {
         return self::page('media-shares', [
             'stats' => Models\Media::topShares(100)
+        ]);
+    }
+
+    public function media($id)
+    {
+        return self::page('media', [
+            'media' => Models\Media::find($id),
+            'urls' => Models\Url::media($id)
         ]);
     }
 }

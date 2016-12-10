@@ -3,6 +3,7 @@
     <head>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
         <link href="//getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet" />
+
         <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -29,6 +30,12 @@
         jQuery(function ($) {
             $('#stats-form select').on('change', function(e) {
                 location.href = WWW + $(this).val();
+            });
+
+            $('.back').on('click', function(e) {
+                e.preventDefault();
+
+                window.history.back();
             });
         });
         </script>

@@ -12,11 +12,11 @@
     </thead>
 
     <tbody>
-        @foreach ($stats as $stat)
+        @foreach ($stats as $row)
         <tr>
-            <td><a href="https://twitter.com/{{ $stat->hash }}" target="_blank">{{ '@'.$stat->hash }}</a></td>
-            <td>{{ $stat->name }}</td>
-            <td class="text-center"><a href="{{ route('profile', ['id' => $stat->id]) }}">{{ $stat->count }}</a></td>
+            <td><a href="https://twitter.com/{{ $row->hash }}" target="_blank">{{ '@'.$row->hash }}</a></td>
+            <td>{{ $row->name }}</td>
+            <td class="text-center"><a href="{{ route('profile', ['id' => $row->id]) }}">{{ $row->count }}</a></td>
         </tr>
         @endforeach
     </tbody>

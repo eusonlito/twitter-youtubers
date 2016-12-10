@@ -11,7 +11,7 @@ class Status extends Model
     public static function profile($id)
     {
         return DB::select('
-            SELECT `text`, `created_at`
+            SELECT `id`, `text`, `created_at`
             FROM `status`
             WHERE `profile_id` = "'.(int)$id.'"
             ORDER BY `created_at` DESC;

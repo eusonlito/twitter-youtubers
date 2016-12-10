@@ -51,6 +51,25 @@ class Media extends Model
         ');
     }
 
+    public static function profile($id)
+    {
+        return DB::select('
+            SELECT `media`.`id`, `media`.`domain`, `counter`.`count`
+            FROM `media`
+            JOIN (
+                SELECT `media_id`, COUNT(`media_id`) AS `count`
+                FROM `url`
+                JOIN `status` ON (`status`.`profile_id` = "'.(int)$id.'")
+                JOIN `url_status` ON (`url_status`.`status_id` = `status`.`id`)
+                WHERE `url`.`id` = `url_status`.`url_id`
+                GROUP BY `media_id`
+                ORDER BY `count` DESC
+            ) AS `counter`
+            WHERE `media`.`id` = `counter`.`media_id`
+            ORDER BY `counter`.`count` DESC, `media`.`domain` ASC;
+        ');
+    }
+
     public static function insertIgnore($url)
     {
         $domain = self::fixDomain($url);

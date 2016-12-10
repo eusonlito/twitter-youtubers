@@ -6,3 +6,4 @@ $app->get('/url-shares', ['as' => 'url-shares', 'uses' => 'Controller@urlShares'
 $app->get('/url/{id}', ['as' => 'url', 'uses' => 'Controller@url']);
 $app->get('/media-links', ['as' => 'media-links', 'uses' => 'Controller@mediaLinks']);
 $app->get('/media-shares', ['as' => 'media-shares', 'uses' => 'Controller@mediaShares']);
+$app->get('/media/{id}', ['as' => 'media', 'uses' => 'Controller@media']);

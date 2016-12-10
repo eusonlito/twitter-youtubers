@@ -11,10 +11,10 @@
     </thead>
 
     <tbody>
-        @foreach ($stats as $stat)
+        @foreach ($stats as $row)
         <tr>
-            <td><a href="http://{{ $stat->domain }}" target="_blank">{{ $stat->domain }}</a></td>
-            <td class="text-center">{{ $stat->count }}</td>
+            <td><a href="http://{{ $row->domain }}" target="_blank">{{ $row->domain }}</a></td>
+            <td class="text-center">{{ $row->count }}</td>
         </tr>
         @endforeach
     </tbody>
