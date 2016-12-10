@@ -15,7 +15,7 @@
         </tr>
 
         <tr>
-            <th>Followings Followers</th>
+            <th>Following Followers</th>
             <td class="text-center">{{ $followings }}</td>
         </tr>
 
