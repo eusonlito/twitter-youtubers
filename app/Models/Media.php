@@ -13,7 +13,7 @@ class Media extends Model
     public static function topLinks($limit)
     {
         return DB::select('
-            SELECT `media`.`domain`, `counter`.`count`
+            SELECT `media`.`id`, `media`.`domain`, `counter`.`count`
             FROM `media`
             JOIN (
                 SELECT `media_id`, COUNT(`media_id`) AS `count`
@@ -30,7 +30,7 @@ class Media extends Model
     public static function topShares($limit)
     {
         return DB::select('
-            SELECT `media`.`domain`, `counter`.`count`
+            SELECT `media`.`id`, `media`.`domain`, `counter`.`count`
             FROM `media`
             JOIN (
                 SELECT `media_id`, SUM(`counter`.`count`) AS `count`
