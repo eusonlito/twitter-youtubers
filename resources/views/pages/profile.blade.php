@@ -45,7 +45,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th class="fixed">URL Uniques</th>
+                        <th class="fixed fixed-66">URL Uniques</th>
                         <th class="text-center">Shared</th>
                     </tr>
                 </thead>
@@ -53,7 +53,7 @@
                 <tbody>
                     @foreach ($urls as $row)
                     <tr>
-                        <td class="fixed"><a href="{{ $row->url }}" target="_blank">{{ $row->url }}</a></td>
+                        <td class="fixed fixed-66"><a href="{{ $row->url }}" target="_blank">{{ $row->url }}</a></td>
                         <td class="text-center"><a href="{{ route('url', ['id' => $row->id]) }}"><i class="glyphicon glyphicon-th-list"></i></a></td>
                     </tr>
                     @endforeach
@@ -67,7 +67,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th class="fixed">Medias</th>
+                        <th class="fixed fixed-66">Medias</th>
                         <th class="text-center">Shared</th>
                     </tr>
                 </thead>
@@ -75,7 +75,7 @@
                 <tbody>
                     @foreach ($medias as $row)
                     <tr>
-                        <td class="fixed"><a href="http://{{ $row->domain }}" target="_blank">{{ $row->domain }}</a></td>
+                        <td class="fixed fixed-66"><a href="http://{{ $row->domain }}" target="_blank">{{ $row->domain }}</a></td>
                         <td class="text-center"><a href="{{ route('media', ['id' => $row->id]) }}">{{ $row->count }}</a></td>
                     </tr>
                     @endforeach
