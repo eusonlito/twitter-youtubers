@@ -1,7 +1,9 @@
 <?php
 return [
     'default' => env('DB_CONNECTION', 'mysql'),
-    'fetch' => PDO::FETCH_CLASS,
+    'fetch' => PDO::FETCH_OBJ,
+
+    'migrations' => 'migrations',
 
     'connections' => [
         'mysql' => [

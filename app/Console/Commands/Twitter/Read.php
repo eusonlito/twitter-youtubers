@@ -1,10 +1,13 @@
 <?php
 namespace App\Console\Commands\Twitter;
 
+use Exception;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Command;
 
 use App\Models;
+use App\Services\Console\Locker;
 use App\Services\Twitter\Twitter;
 
 class Read extends Command
@@ -12,14 +15,24 @@ class Read extends Command
     protected $name        = 'twitter-read';
     protected $description = 'Read Twitter Profiles';
 
-    protected $limitFollowers = 600;
-    protected $limitFollowing = 50;
-    protected $limitTimeline  = 50;
+    protected $limitFollowers = 0;
+    protected $limitFollowing = 0;
+    protected $limitTimeline  = 0;
 
     protected $twitter;
 
     public function handle()
     {
+        try {
+            Locker::check(__FILE__);
+        } catch (Exception $e) {
+            return $this->setError($e);
+        }
+
+        $this->limitFollowers = env('LIMIT_FOLLOWERS');
+        $this->limitFollowing = env('LIMIT_FOLLOWING');
+        $this->limitTimeline  = env('LIMIT_TIMELINE');
+
         $this->twitter = new Twitter;
 
         foreach (DB::table('profile')->where('master', 1)->get() as $profile) {
@@ -74,5 +87,12 @@ class Read extends Command
         foreach ($this->twitter->getTimeline($profile->id, $limit) as $status) {
             Models\Status::insertIgnore($status);
         }
+    }
+
+    private function setError(Exception $e)
+    {
+        echo '['.date('Y-m-d H:i:s').']'
+            .' ['.str_replace(base_path(), '', $e->getFile()).' | '.$e->getLine().']'
+            .' '.$e->getMessage()."\n";
     }
 }
