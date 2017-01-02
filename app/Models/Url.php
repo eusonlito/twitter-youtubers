@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
+use App\Services\URL\URL as UrlService;
 
 class Url extends Model
 {
@@ -13,7 +14,7 @@ class Url extends Model
     public static function topShares($limit)
     {
         return DB::select('
-            SELECT `url`.`id`, `url`.`url`, `counter`.`count`
+            SELECT `url`.`id`, `url`.`expanded` AS `url`, `counter`.`count`
             FROM `url`
             JOIN (
                 SELECT `url_id`, COUNT(`url_id`) AS `count`
@@ -23,27 +24,27 @@ class Url extends Model
                 LIMIT '.(int)$limit.'
             ) AS `counter`
             WHERE `url`.`id` = `counter`.`url_id`
-            ORDER BY `counter`.`count` DESC, `url`.`url` ASC;
+            ORDER BY `counter`.`count` DESC, `url` ASC;
         ');
     }
 
     public static function profile($id)
     {
         return DB::select('
-            SELECT `url`.`id`, `url`.`url`
+            SELECT `url`.`id`, `url`.`expanded` AS `url`
             FROM `url`
             JOIN `status` ON (`status`.`profile_id` = "'.(int)$id.'")
             JOIN `url_status` ON (`url_status`.`status_id` = `status`.`id`)
             WHERE `url`.`id` = `url_status`.`url_id`
             GROUP BY `url`.`id`
-            ORDER BY `url`.`url` ASC
+            ORDER BY `url` ASC
         ');
     }
 
     public static function media($id, $limit = 100)
     {
         return DB::select('
-            SELECT `url`.`id`, `url`.`url`, `counter`.`count`
+            SELECT `url`.`id`, `url`.`expanded` AS `url`, `counter`.`count`
             FROM `url`
             JOIN (
                 SELECT `url_status`.`url_id`, COUNT(`url_status`.`url_id`) AS `count`
@@ -55,7 +56,7 @@ class Url extends Model
                 LIMIT '.(int)$limit.'
             ) AS `counter`
             WHERE `url`.`id` = `counter`.`url_id`
-            ORDER BY `counter`.`count` DESC, `url`.`url` ASC;
+            ORDER BY `counter`.`count` DESC, `url` ASC;
         ');
     }
 
@@ -63,15 +64,18 @@ class Url extends Model
     {
         $media_id = Media::insertIgnore($url);
         $url_id = self::getUrlId($url);
+        $expanded = UrlService::getReal($url);
 
         if ($url_id === null) {
             DB::statement('
                 INSERT IGNORE INTO `url`
                 SET
                     `url` = :url,
+                    `expanded` = :expanded,
                     `media_id` = :media_id;
             ', [
                 'url' => $url,
+                'expanded' => $expanded,
                 'media_id' => $media_id
             ]);
 
