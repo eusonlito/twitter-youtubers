@@ -32,10 +32,10 @@ class Reset extends Command
     private function parse($url)
     {
         if ($url->url === $url->original) {
-            $this->url = Short::getExpanded($url->original);
+            $url->url = Short::getExpanded($url->original);
         }
 
-        $url->media_id = Models\Media::insertIgnore($this->url);
+        $url->media_id = Models\Media::insertIgnore($url->url);
 
         $url->save();
     }
