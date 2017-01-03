@@ -48,7 +48,7 @@ class Status extends Model
         ]);
 
         foreach ($status->entities->urls as $url) {
-            Url::insertIgnore($status->id, $url->expanded_url);
+            Url::insertIgnore($url->expanded_url, $status->id);
         }
     }
 }

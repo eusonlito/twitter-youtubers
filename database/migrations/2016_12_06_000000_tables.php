@@ -78,7 +78,7 @@ class Tables extends Migration
             $table->bigIncrements('id');
 
             $table->string('url')->unique();
-            $table->string('expanded');
+            $table->string('original');
 
             $table->bigInteger('media_id')->unsigned();
         });

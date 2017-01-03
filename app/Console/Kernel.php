@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\Twitter\Read::class,
-        Commands\Url\Expand::class,
+        Commands\Url\Reset::class,
     ];
 
     /**
