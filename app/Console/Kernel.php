@@ -12,7 +12,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\Twitter\Read::class
+        Commands\Twitter\Read::class,
+        Commands\Url\Expand::class,
     ];
 
     /**

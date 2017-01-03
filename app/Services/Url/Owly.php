@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\URL;
+namespace App\Services\Url;
 
 class Owly
 {

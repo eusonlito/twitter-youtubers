@@ -2,7 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
-use App\Services\URL\URL as UrlService;
+use App\Services\Url\Url as UrlService;
 
 class Url extends Model
 {

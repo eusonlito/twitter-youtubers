@@ -1,7 +1,7 @@
 <?php
-namespace App\Services\URL;
+namespace App\Services\Url;
 
-class Shares
+class Fbme
 {
     public static function expand($url)
     {

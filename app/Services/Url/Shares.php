@@ -1,7 +1,7 @@
 <?php
-namespace App\Services\URL;
+namespace App\Services\Url;
 
-class Bitly
+class Shares
 {
     public static function expand($url)
     {

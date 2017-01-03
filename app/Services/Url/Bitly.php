@@ -1,7 +1,7 @@
 <?php
-namespace App\Services\URL;
+namespace App\Services\Url;
 
-class Fbme
+class Bitly
 {
     public static function expand($url)
     {
