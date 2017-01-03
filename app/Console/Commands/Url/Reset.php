@@ -25,6 +25,7 @@ class Reset extends Command
         DB::statement('SET foreign_key_checks=0');
 
         Models\Media::truncate();
+        Models\Url::query()->update(['media_id' => null]);
 
         DB::statement('SET foreign_key_checks=1');
     }
